@@ -23,6 +23,10 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     const errors = {};
 
     Profile.findOne({ user: req.user.id })
+        .populate(
+          'user',
+          ['name', 'avatar']
+        )
         .then(profile => {
             if (!profile){
                 errors.noprofile = 'There is no profile for this user';
@@ -31,6 +35,84 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
             res.json(profile);
         })
         .catch(err => res.status(404).json(err));
+});
+
+
+// @route      GET api/profile/handle/:handle
+// desc        Get user profile by handle
+// @access     public
+router.get('/handle/:handle', (req, res) => {
+  const errors = {};
+
+  Profile.findOne({handle: req.params.handle})
+    .populate(
+      'user',
+      ['name', 'avatar']
+    )
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = 'There is no profile for this user';
+        return res.status(404).json(errors);
+      }
+      res.json(profile);
+    })
+    .catch(err => {
+      errors.noprofile = 'There is no profile for this user';
+      res.status(404).json(errors)
+    });
+  
+});
+
+
+// @route      GET api/profile/user/:user_id
+// desc        Get user profile by user id
+// @access     public
+router.get('/user/:user_id', (req, res) => {
+  const errors = {};
+
+  Profile.findOne({user: req.params.user_id})
+    .populate(
+      'user',
+      ['name', 'avatar']
+    )
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = 'There is no profile for this user';
+        return res.status(404).json(errors);
+      }
+      res.json(profile);
+    })
+    .catch(err => {
+      errors.noprofile = 'There is no profile for this user';
+      res.status(404).json(errors)
+    });
+  
+});
+
+
+// @route      GET api/profile/all
+// desc        Get all user profiles 
+// @access     public
+router.get('/all', (req, res) => {
+  const errors = {};
+
+  Profile.find({})
+    .populate(
+      'user',
+      ['name', 'avatar']
+    )
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = 'There are no profiles';
+        return res.status(404).json(errors);
+      }
+      res.json(profile);
+    })
+    .catch(err => {
+      errors.noprofile = 'There are no profiles';
+      res.status(404).json(errors)
+    });
+  
 });
 
 
