@@ -14,8 +14,8 @@ class Login extends Component {
     };
 
     // Need to bind event to method
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    //this.onChange = this.onChange.bind(this);
+    //this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -32,16 +32,18 @@ class Login extends Component {
     if (nextProps.errors) this.setState({ errors: nextProps.errors });
   }
 
-  onChange(e) {
+  onChange = e => {
+    console.log("onChange event fired!");
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
-  onSubmit(e) {
+  onSubmit = e => {
+    console.log("onSubmit event fired!");
     e.preventDefault();
 
     const userData = { ...this.state };
     this.props.loginUser(userData);
-  }
+  };
 
   render() {
     const { errors } = this.state;
