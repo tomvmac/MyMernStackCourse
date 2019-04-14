@@ -209,6 +209,7 @@ class EditProfile extends Component {
                   placeholder="* Profile Handle"
                   name="handle"
                   value={this.state.handle}
+                  //value={this.props.profile.profile.handle}
                   onChange={this.onChange}
                   error={errors.handle}
                   info="A unique handle for your profile URL. Your full name, company name, nickname"
